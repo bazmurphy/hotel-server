@@ -33,7 +33,7 @@ app.get("/bookings/:id", function (req, res) {
     };
 })
 
-app.post("/bookings", function (req, res) {
+app.post("/bookings/add", function (req, res) {
     // console.log("POST /bookings route");
     const bookingToAdd = {
         id: (Number(bookings[bookings.length -1].id) + 1),
