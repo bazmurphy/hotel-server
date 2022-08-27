@@ -106,39 +106,46 @@ app.post("/bookings/update", function (req, res) {
     // console.log("PUT /bookings route");
     console.log(req.body);
 
-    const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.params.id));
+    const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.body.id));
+    console.log(`indexOfBookingToUpdate ${indexOfBookingToUpdate}`);
+
     if (indexOfBookingToUpdate > -1) {
+        
+        console.log(`Booking with ${req.body.id} found at index ${indexOfBookingToUpdate}`)
+
         let propertiesUpdated = {};
         
         if (req.body.roomId) {
-            propertiesUpdated.roomId = req.body.roomId;
+            // propertiesUpdated.roomId = req.body.roomId;
             bookings[indexOfBookingToUpdate].roomId = req.body.roomId;
         }
         if (req.body.title) {
-            propertiesUpdated.title = req.body.title;
+            // propertiesUpdated.title = req.body.title;
             bookings[indexOfBookingToUpdate].title = req.body.title;
         }
         if (req.body.firstName) {
-            propertiesUpdated.firstName = req.body.firstName;
+            // propertiesUpdated.firstName = req.body.firstName;
             bookings[indexOfBookingToUpdate].firstName = req.body.firstName;
         }
         if (req.body.surname) {
-            propertiesUpdated.surname = req.body.surname;
+            // propertiesUpdated.surname = req.body.surname;
             bookings[indexOfBookingToUpdate].surname = req.body.surname;
         }
         if (req.body.email) {
-            propertiesUpdated.email = req.body.email;
+            // propertiesUpdated.email = req.body.email;
             bookings[indexOfBookingToUpdate].email = req.body.email;
         }
         if (req.body.checkInDate) {
-            propertiesUpdated.checkInDate = req.body.checkInDate;
+            // propertiesUpdated.checkInDate = req.body.checkInDate;
             bookings[indexOfBookingToUpdate].checkInDate = req.body.checkInDate;
         }
         if (req.body.checkOutDate) {
-            propertiesUpdated.checkOutDate = req.body.checkOutDate;
+            // propertiesUpdated.checkOutDate = req.body.checkOutDate;
             bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
         }
         
+        // ITERATE THROUGH UPDATED PROPERTIES OBJECT AND SET THE OLD OBJECT KEY/VALUE WITH THE UPDATED ONE
+
         // let propertiesUpdatedStepOne = [];
         
         // for (let property in propertiesUpdated) {
@@ -153,6 +160,7 @@ app.post("/bookings/update", function (req, res) {
         // console.log(`Booking update : ${propertiesUpdatedStepTwo}`);
         res.sendStatus(200);
     } else {
+        console.log(`Booking with ${req.body.id} was not found`)
         res.sendStatus(404);
     }
 });
