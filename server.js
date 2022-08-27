@@ -36,6 +36,7 @@ app.get("/bookings/:id", function (req, res) {
 app.post("/bookings/add", function (req, res) {
     // console.log("POST /bookings/add route");
     console.log(req.body);
+
     const bookingToAdd = {
         id: (Number(bookings[bookings.length -1].id) + 1),
         roomId: Number(req.body.roomId),
@@ -47,10 +48,71 @@ app.post("/bookings/add", function (req, res) {
         checkOutDate: req.body.checkOutDate,
     };
     bookings.push(bookingToAdd);
-    console.log(bookings);
+    console.log(`Booking with ${bookingToAdd.id} was Added...`);
     res.sendStatus(200);
 });
 
+app.post("/bookings/update", function (req, res) {
+    // console.log("PUT /bookings route");
+    console.log(req.body);
+
+    const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.body.id));
+    console.log(`indexOfBookingToUpdate ${indexOfBookingToUpdate}`);
+
+    if (indexOfBookingToUpdate > -1) {
+        console.log(`Booking with ${req.body.id} found at index ${indexOfBookingToUpdate}, Updating...`)
+
+        if (req.body.roomId) {
+            bookings[indexOfBookingToUpdate].roomId = req.body.roomId;
+        }
+        if (req.body.title) {
+            bookings[indexOfBookingToUpdate].title = req.body.title;
+        }
+        if (req.body.firstName) {
+            bookings[indexOfBookingToUpdate].firstName = req.body.firstName;
+        }
+        if (req.body.surname) {
+            bookings[indexOfBookingToUpdate].surname = req.body.surname;
+        }
+        if (req.body.email) {
+            bookings[indexOfBookingToUpdate].email = req.body.email;
+        }
+        if (req.body.checkInDate) {
+            bookings[indexOfBookingToUpdate].checkInDate = req.body.checkInDate;
+        }
+        if (req.body.checkOutDate) {
+            bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
+        }
+
+        res.sendStatus(200);
+    } else {
+        console.log(`Booking with ${req.body.id} was not found`);
+        res.sendStatus(404);
+    }
+
+});
+
+app.post("/bookings/delete", function (req, res) {
+    // console.log("POST /bookings/delete route");
+    console.log(req.body);
+
+    const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.body.id));
+    console.log(`indexOfBookingToDelete ${indexOfBookingToDelete}`);
+
+    if (indexOfBookingToDelete > -1) {
+        console.log(`Booking with ${req.body.id} found at index ${indexOfBookingToDelete}, Deleting...`)
+        bookings.splice(indexOfBookingToDelete, 1);
+        res.sendStatus(200);
+    } else {
+        console.log(`Booking with ${req.body.id} was not found`);
+        res.sendStatus(404);
+    };
+
+});
+
+const listener = app.listen(process.env.PORT || PORT, function() {
+    console.log("Your app is listening on port " + listener.address().port);
+});
 
 // app.put("/bookings/:id", function (req, res) {
 //     // console.log("PUT /bookings route");
@@ -102,69 +164,6 @@ app.post("/bookings/add", function (req, res) {
 //     // res.redirect('/');
 // });
 
-app.post("/bookings/update", function (req, res) {
-    // console.log("PUT /bookings route");
-    console.log(req.body);
-
-    const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.body.id));
-    console.log(`indexOfBookingToUpdate ${indexOfBookingToUpdate}`);
-
-    if (indexOfBookingToUpdate > -1) {
-        
-        console.log(`Booking with ${req.body.id} found at index ${indexOfBookingToUpdate}`)
-
-        let propertiesUpdated = {};
-        
-        if (req.body.roomId) {
-            // propertiesUpdated.roomId = req.body.roomId;
-            bookings[indexOfBookingToUpdate].roomId = req.body.roomId;
-        }
-        if (req.body.title) {
-            // propertiesUpdated.title = req.body.title;
-            bookings[indexOfBookingToUpdate].title = req.body.title;
-        }
-        if (req.body.firstName) {
-            // propertiesUpdated.firstName = req.body.firstName;
-            bookings[indexOfBookingToUpdate].firstName = req.body.firstName;
-        }
-        if (req.body.surname) {
-            // propertiesUpdated.surname = req.body.surname;
-            bookings[indexOfBookingToUpdate].surname = req.body.surname;
-        }
-        if (req.body.email) {
-            // propertiesUpdated.email = req.body.email;
-            bookings[indexOfBookingToUpdate].email = req.body.email;
-        }
-        if (req.body.checkInDate) {
-            // propertiesUpdated.checkInDate = req.body.checkInDate;
-            bookings[indexOfBookingToUpdate].checkInDate = req.body.checkInDate;
-        }
-        if (req.body.checkOutDate) {
-            // propertiesUpdated.checkOutDate = req.body.checkOutDate;
-            bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
-        }
-        
-        // ITERATE THROUGH UPDATED PROPERTIES OBJECT AND SET THE OLD OBJECT KEY/VALUE WITH THE UPDATED ONE
-
-        // let propertiesUpdatedStepOne = [];
-        
-        // for (let property in propertiesUpdated) {
-        //     propertiesUpdatedStepOne.push(`${property}:${propertiesUpdated[property]}`)
-        // }
-        
-        // let propertiesUpdatedStepTwo = propertiesUpdatedStepOne.join(", ");
-        
-        console.log(propertiesUpdated);
-        // console.log(propertiesUpdatedStepOne);
-        // console.log(propertiesUpdatedStepTwo);
-        // console.log(`Booking update : ${propertiesUpdatedStepTwo}`);
-        res.sendStatus(200);
-    } else {
-        console.log(`Booking with ${req.body.id} was not found`)
-        res.sendStatus(404);
-    }
-});
-
 // app.delete("/bookings/:id", function (req, res) {
 //     // console.log("DELETE /bookings/:id route");
 //     const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.params.id));
@@ -175,22 +174,3 @@ app.post("/bookings/update", function (req, res) {
 //         res.sendStatus(404);
 //     };
 // });
-
-app.post("/bookings/delete", function (req, res) {
-    // console.log("POST /bookings/delete route");
-    console.log(req.body);
-    const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.body.id));
-    if (indexOfBookingToDelete > -1) {
-        bookings.splice(indexOfBookingToDelete, 1);
-        console.log(bookings);
-        // console.log(`Booking ID ${req.body.id} has been deleted`);
-        res.sendStatus(200);
-    } else {
-        // console.log(`Booking ID ${req.body.id} does not exist`);
-        res.sendStatus(404);
-    };
-});
-
-const listener = app.listen(process.env.PORT || PORT, function() {
-    console.log("Your app is listening on port " + listener.address().port);
-});
