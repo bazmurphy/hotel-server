@@ -34,7 +34,7 @@ app.get("/bookings/:id", function (req, res) {
 });
 
 app.post("/bookings/add", function (req, res) {
-    // console.log("POST /bookings route");
+    // console.log("POST /bookings/add route");
     console.log(req.body);
     const bookingToAdd = {
         id: (Number(bookings[bookings.length -1].id) + 1),
@@ -47,7 +47,7 @@ app.post("/bookings/add", function (req, res) {
         checkOutDate: req.body.checkOutDate,
     };
     bookings.push(bookingToAdd);
-    // console.log(bookings);
+    console.log(bookings);
     res.sendStatus(200);
 });
 
@@ -163,18 +163,20 @@ app.post("/bookings/add", function (req, res) {
 //     };
 // });
 
-// app.post("/bookings/delete", function (req, res) {
-//     // console.log("DELETE /bookings/:id route");
-//     const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.body.id));
-//     if (indexOfBookingToDelete > -1) {
-//         bookings.splice(indexOfBookingToDelete, 1);
-//         console.log(`Booking ID ${req.body.id} has been deleted`)
-//         // res.send(`Booking ID ${req.body.id} has been deleted`)
-//         // res.redirect('/');
-//     } else {
-//         res.sendStatus(404);
-//     };
-// });
+app.post("/bookings/delete", function (req, res) {
+    // console.log("POST /bookings/delete route");
+    console.log(req.body);
+    const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.body.id));
+    if (indexOfBookingToDelete > -1) {
+        bookings.splice(indexOfBookingToDelete, 1);
+        console.log(bookings);
+        // console.log(`Booking ID ${req.body.id} has been deleted`);
+        res.sendStatus(200);
+    } else {
+        // console.log(`Booking ID ${req.body.id} does not exist`);
+        res.sendStatus(404);
+    };
+});
 
 const listener = app.listen(process.env.PORT || PORT, function() {
     console.log("Your app is listening on port " + listener.address().port);
