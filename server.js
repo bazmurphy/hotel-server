@@ -48,12 +48,12 @@ app.post("/bookings/add", function (req, res) {
         checkOutDate: req.body.checkOutDate,
     };
     bookings.push(bookingToAdd);
-    console.log(`Booking with ${bookingToAdd.id} was Added...`);
-    res.sendStatus(200);
+    console.log(`Booking ID ${bookingToAdd.id} was Added...`);
+    res.status(200).json({message: `Booking ID ${bookingToAdd.id} was Added`});
 });
 
 app.post("/bookings/update", function (req, res) {
-    // console.log("PUT /bookings route");
+    // console.log("POST /bookings/update route");
     console.log(req.body);
 
     const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.body.id));
@@ -84,10 +84,10 @@ app.post("/bookings/update", function (req, res) {
             bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
         }
 
-        res.sendStatus(200);
+        res.status(200).json({message: `Booking ID ${req.body.id} was Updated`});
     } else {
         console.log(`Booking with ${req.body.id} was not found`);
-        res.sendStatus(404);
+        res.status(404).json({message: `Booking ID ${req.body.id} was not found`});
     }
 
 });
@@ -102,10 +102,10 @@ app.post("/bookings/delete", function (req, res) {
     if (indexOfBookingToDelete > -1) {
         console.log(`Booking with ${req.body.id} found at index ${indexOfBookingToDelete}, Deleting...`)
         bookings.splice(indexOfBookingToDelete, 1);
-        res.sendStatus(200);
+        res.status(200).json({message: `Booking ID ${req.body.id} was Deleted`});
     } else {
-        console.log(`Booking with ${req.body.id} was not found`);
-        res.sendStatus(404);
+        console.log(`Booking ID ${req.body.id} was not found`);
+        res.status(404).json({message: `Booking ID ${req.body.id} was not found`});
     };
 
 });
