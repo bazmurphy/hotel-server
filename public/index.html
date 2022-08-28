@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+  <title>Hotel Server</title>
+</head>
+<body>
+  <div class="container">
+    <header class="heading-container">
+      <img class="heading-image" src="images/hotel.png" />
+      <h1 class="heading-title">Hotel Server</h1>
+    </header>
+    <div class="routes-container">
+      <div class="routes-sub-container">
+        <h2 class="routes-title">Routes</h2>
+        <div class="routes-sub-sub-container">
+          <span class="route-heading">Method</span><span class="route-heading">Route</span><span class="route-heading">Result</span><span class="route-heading">Example</span>
+          <span>GET</span><span>/</span><span>get this page (index.html)</span><a href="/">/</a>
+          <span>GET</span><span>/bookings</span><span>get all bookings</span><a href="/bookings" target="iframe">/bookings</a>
+          <span>GET</span><span>/bookings/:id</span><span>get one booking by its ID</span><a href="/bookings/4" target="iframe">/bookings/4</a>
+          <span>GET</span><span>/customers</span><span>get all customers</span><a href="/customers" target="iframe">/customers</a>
+          <span>GET</span><span>/customers/:id</span><span>get one customer by their ID</span><a href="/customers/4" target="iframe">/customers/4</a>
+          <span>POST</span><span>/bookings/add</span><span>add one booking</span><span>-</span>
+          <span>PUT</span><span>/bookings/:id</span><span>update one booking by its ID</span><span>-</span>
+          <span>DELETE</span><span>/bookings/:id</span><span>delete one booking by its ID</span><span>-</span>
+          <span>POST</span><span>/bookings/update</span><span>update one booking by its ID</span><span>FrontEnd HTML/React Form</span>
+          <span>POST</span><span>/bookings/delete</span><span>delete one booking by its ID</span><span>FrontEnd HTML/React Form</span>
+        </div>
+      </div>
+    </div>
+    <div class="iframe-container">
+      <div class="iframe-sub-container">
+        <h2 class="iframe-title">Response</h2>
+        <iframe name="iframe"></iframe>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

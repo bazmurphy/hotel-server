@@ -12,26 +12,58 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const bookings = require("./bookings.json");
+const customers = require('./customers.json');
+
+
+// ========== GET ========== c.R.u.d (READ)
 
 app.get("/", function (req, res) {
     // console.log("GET / route");
-    res.send("Hotel Server API");
+    res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/bookings", function (req, res) {
     // console.log("GET /bookings route");
-    res.send(bookings);
+    res.status(200).json(bookings);
 });
 
 app.get("/bookings/:id", function (req, res) {
     // console.log(console.log("GET /bookings/:id route"))
     const indexOfBooking = bookings.findIndex(element => element.id === Number(req.params.id));
     if (indexOfBooking > -1) {
-        res.send(bookings[indexOfBooking]);
+        res.status(200).json(bookings[indexOfBooking]);
     } else {
-        res.sendStatus(404);
+        res.status(404).json({ message: `Booking ID ${req.params.id} was not found`});
     };
 });
+
+app.get('/customers', (req, res) => {
+    // console.log(console.log("GET /customers route"))
+    res.status(200).json(customers);
+})
+
+app.get('/customers/:id', (req, res) => {
+    // console.log(console.log("GET /customers/:id route"))
+    const customer = customers.find(element => element.id === Number(req.params.id));
+    if (customer) {
+        res.status(200).json(customer);
+    } else {
+        res.status(404).json({ message: `Customer ID ${req.params.id} was not found`});
+    }
+})
+
+// app.get('/delayed', (req, res) => {
+//   setTimeout(() => {
+//     res.json(bookings)
+//   }, 5000)
+// })
+
+// app.get('/error', (req, res) => {
+//   res.status(500).send({ error: 'Whoops something went wrong!' })
+// })
+
+
+// ========== POST ========== C.r.u.d (Create)
 
 app.post("/bookings/add", function (req, res) {
     // console.log("POST /bookings/add route");
@@ -51,6 +83,9 @@ app.post("/bookings/add", function (req, res) {
     console.log(`Booking ID ${bookingToAdd.id} was Added...`);
     res.status(200).json({message: `Booking ID ${bookingToAdd.id} was Added`});
 });
+
+
+// ========== FOR HTML/REACT FORMS ==========
 
 app.post("/bookings/update", function (req, res) {
     // console.log("POST /bookings/update route");
@@ -110,67 +145,59 @@ app.post("/bookings/delete", function (req, res) {
 
 });
 
+
+// ========== PUT ========== c.r.U.d (Update)
+
+app.put("/bookings/:id", function (req, res) {
+    // console.log("PUT /bookings/:id route");
+    const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.params.id));
+
+    let propertiesUpdated = {};
+    
+    if (req.body.roomId) {
+        propertiesUpdated.roomId = req.body.roomId;
+        bookings[indexOfBookingToUpdate].roomId = req.body.roomId;
+    }
+    if (req.body.title) {
+        propertiesUpdated.title = req.body.title;
+        bookings[indexOfBookingToUpdate].title = req.body.title;
+    }
+    if (req.body.firstName) {
+        propertiesUpdated.firstName = req.body.firstName;
+        bookings[indexOfBookingToUpdate].firstName = req.body.firstName;
+    }
+    if (req.body.surname) {
+        propertiesUpdated.surname = req.body.surname;
+        bookings[indexOfBookingToUpdate].surname = req.body.surname;
+    }
+    if (req.body.email) {
+        propertiesUpdated.email = req.body.email;
+        bookings[indexOfBookingToUpdate].email = req.body.email;
+    }
+    if (req.body.checkInDate) {
+        propertiesUpdated.checkInDate = req.body.checkInDate;
+        bookings[indexOfBookingToUpdate].checkInDate = req.body.checkInDate;
+    }
+    if (req.body.checkOutDate) {
+        propertiesUpdated.checkOutDate = req.body.checkOutDate;
+        bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
+    }
+    console.log(propertiesUpdated);
+});
+
+// ========== DELETE ========== c.r.u.D (Delete)
+
+app.delete("/bookings/:id", function (req, res) {
+    // console.log("DELETE /bookings/:id route");
+    const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.params.id));
+    if (indexOfBookingToDelete > -1) {
+        bookings.splice(indexOfBookingToDelete, 1);
+        res.status(200).json({message: `Booking ID ${req.params.id} was Deleted`})
+    } else {
+        res.status(404).json({message: `Booking ID ${req.params.id} was not found`})
+    };
+});
+
 const listener = app.listen(process.env.PORT || PORT, function() {
     console.log("Your app is listening on port " + listener.address().port);
 });
-
-// app.put("/bookings/:id", function (req, res) {
-//     // console.log("PUT /bookings route");
-//     const indexOfBookingToUpdate = bookings.findIndex(element => element.id === Number(req.params.id));
-
-//     let propertiesUpdated = {};
-    
-//     if (req.body.roomId) {
-//         propertiesUpdated.roomId = req.body.roomId;
-//         bookings[indexOfBookingToUpdate].roomId = req.body.roomId;
-//     }
-//     if (req.body.title) {
-//         propertiesUpdated.title = req.body.title;
-//         bookings[indexOfBookingToUpdate].title = req.body.title;
-//     }
-//     if (req.body.firstName) {
-//         propertiesUpdated.firstName = req.body.firstName;
-//         bookings[indexOfBookingToUpdate].firstName = req.body.firstName;
-//     }
-//     if (req.body.surname) {
-//         propertiesUpdated.surname = req.body.surname;
-//         bookings[indexOfBookingToUpdate].surname = req.body.surname;
-//     }
-//     if (req.body.email) {
-//         propertiesUpdated.email = req.body.email;
-//         bookings[indexOfBookingToUpdate].email = req.body.email;
-//     }
-//     if (req.body.checkInDate) {
-//         propertiesUpdated.checkInDate = req.body.checkInDate;
-//         bookings[indexOfBookingToUpdate].checkInDate = req.body.checkInDate;
-//     }
-//     if (req.body.checkOutDate) {
-//         propertiesUpdated.checkOutDate = req.body.checkOutDate;
-//         bookings[indexOfBookingToUpdate].checkOutDate = req.body.checkOutDate;
-//     }
-    
-//     let propertiesUpdatedStepOne = [];
-    
-//     for (let property in propertiesUpdated) {
-//         propertiesUpdatedStepOne.push(`${property}:${propertiesUpdated[property]}`)
-//     }
-    
-//     let propertiesUpdatedStepTwo = propertiesUpdatedStepOne.join(", ");
-    
-//     // console.log(propertiesUpdated);
-//     // console.log(propertiesUpdatedStepOne);
-//     // console.log(propertiesUpdatedStepTwo);
-//     console.log(`Booking update : ${propertiesUpdatedStepTwo}`);
-//     // res.redirect('/');
-// });
-
-// app.delete("/bookings/:id", function (req, res) {
-//     // console.log("DELETE /bookings/:id route");
-//     const indexOfBookingToDelete = bookings.findIndex(element => element.id === Number(req.params.id));
-//     if (indexOfBookingToDelete > -1) {
-//         bookings.splice(indexOfBookingToDelete, 1);
-//         res.send(`Booking ID ${req.params.id} has been deleted`)
-//     } else {
-//         res.sendStatus(404);
-//     };
-// });
