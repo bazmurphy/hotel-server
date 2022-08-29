@@ -5,9 +5,8 @@
       "firstName":"John",
       "surname":"Doe",
       "email":"johndoe@doe.com",
-      "roomId":2,
-      "checkInDate":"2017-11-21",
-      "checkOutDate":"2017-11-23"
+      "vip":true,
+      "phoneNumber":"+44 1632 960185"
    },
    {
       "id":2,
@@ -15,9 +14,8 @@
       "firstName":"Sadia",
       "surname":"Begum",
       "email":"begum_sadia@sadia.org",
-      "roomId":1,
-      "checkInDate":"2018-02-15",
-      "checkOutDate":"2018-02-28"
+      "vip":true,
+      "phoneNumber":"+44 1632 960001"
    },
    {
       "id":3,
@@ -25,9 +23,8 @@
       "firstName":"Henry",
       "surname":"Wales",
       "email":"harry@wales.com",
-      "roomId":5,
-      "checkInDate":"2018-03-01",
-      "checkOutDate":"2018-04-09"
+      "vip":false,
+      "phoneNumber":"+44 1632 960745"
    },
    {
       "id":4,
@@ -35,9 +32,8 @@
       "firstName":"Judi",
       "surname":"Dench",
       "email":"Judi@dench.co.uk",
-      "roomId":6,
-      "checkInDate":"2017-12-25",
-      "checkOutDate":"2018-01-03"
+      "vip":false,
+      "phoneNumber":"+44 1632 960019"
    },
    {
       "id":5,
@@ -45,8 +41,7 @@
       "firstName":"Anuradha",
       "surname":"Selvam",
       "email":"anu@selvam.net",
-      "roomId":3,
-      "checkInDate":"2017-08-30",
-      "checkOutDate":"2017-10-02"
+      "vip":true,
+      "phoneNumber":"+44 1632 960455"
    }
 ]
